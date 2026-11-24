@@ -8,7 +8,7 @@ from simplesave.dialogos import (COLOR_AVISO, COLOR_MAL, COLOR_OK, COLOR_TENUE, 
                                  DialogoNombre, boton_principal, miniatura, pedir_nota)
 from simplesave.gestor import ErrorGuardado, hora_de
 from simplesave.i18n import t
-from simplesave import qt
+from simplesave import estilo, qt
 from simplesave.qt import QtCore, QtWidgets
 
 Qt = QtCore.Qt
@@ -100,7 +100,7 @@ class PanelSimpleSave(QtWidgets.QWidget):
         self.servicios = gestor.s
         self.ajustes = gestor.ajustes
         self.padre_dialogos = padre_dialogos
-        self.setObjectName("SimpleSavePanel")
+        estilo.aplicar(self, "SimpleSavePanel")
         self._firma = None
         self._mensaje_hasta = 0
         self._latidos = 0
@@ -125,7 +125,7 @@ class PanelSimpleSave(QtWidgets.QWidget):
         lay = QtWidgets.QVBoxLayout(pagina)
         lay.setSpacing(8)
         estado = QtWidgets.QFrame()
-        estado.setStyleSheet("QFrame{background:#444;border-radius:4px}")
+        estilo.rol(estado, "tarjeta")
         fila = QtWidgets.QHBoxLayout(estado)
         fila.setContentsMargins(10, 8, 10, 8)
         self.punto = QtWidgets.QLabel()
@@ -223,14 +223,12 @@ class PanelSimpleSave(QtWidgets.QWidget):
         self.aviso_profesor.setWordWrap(True)
         self.aviso_profesor.setStyleSheet("background:#4a4232;color:#f3dca8;padding:6px 8px;border-radius:3px")
         exterior.addWidget(self.aviso_profesor)
-        form = QtWidgets.QFormLayout()
+        form = estilo.formulario()
         exterior.addLayout(form)
         self.controles = {}
 
         def titulo(texto):
-            etiqueta = QtWidgets.QLabel(texto.upper())
-            etiqueta.setStyleSheet("color:{};font-size:11px;padding-top:8px".format(COLOR_TENUE))
-            form.addRow(etiqueta)
+            form.addRow(estilo.etiqueta(texto, "seccion"))
 
         def casilla(clave, texto):
             c = QtWidgets.QCheckBox(texto)

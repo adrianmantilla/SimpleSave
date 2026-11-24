@@ -5,6 +5,7 @@ import os
 
 from simplesave import nombres
 from simplesave.archivos import tamano_legible
+from simplesave import estilo
 from simplesave.i18n import t
 from simplesave.qt import QtCore, QtGui, QtWidgets
 
@@ -18,10 +19,7 @@ COLOR_TENUE = "#9a9a9a"
 
 def boton_principal(texto):
     b = QtWidgets.QPushButton(texto)
-    b.setProperty("simplesavePrincipal", True)
-    b.setStyleSheet("QPushButton{background:#5285a6;color:white;border:1px solid #2f5068;border-radius:3px;"
-                    "padding:5px 14px}QPushButton:hover{background:#5f94b6}"
-                    "QPushButton:disabled{background:#4a4a4a;color:#888;border-color:#333}")
+    estilo.primario(b)
     b.setDefault(True)
     return b
 
@@ -52,6 +50,7 @@ class DialogoNombre(QtWidgets.QDialog):
 
     def __init__(self, gestor, nota="", padre=None):
         super(DialogoNombre, self).__init__(padre)
+        estilo.aplicar(self, "SimpleSaveNombre")
         self.gestor = gestor
         self.setWindowTitle(t("nombre_titulo"))
         self.setMinimumWidth(440)
@@ -157,6 +156,7 @@ class DialogoRecuperar(QtWidgets.QDialog):
 
     def __init__(self, copia, ultima, siguiente, padre=None):
         super(DialogoRecuperar, self).__init__(padre)
+        estilo.aplicar(self, "SimpleSaveRecuperar")
         self.setWindowTitle(t("recuperar_titulo"))
         self.eleccion = self.NADA
         lay = QtWidgets.QVBoxLayout(self)
@@ -191,6 +191,7 @@ class DialogoRescates(QtWidgets.QDialog):
 
     def __init__(self, rutas, servicios, padre=None):
         super(DialogoRescates, self).__init__(padre)
+        estilo.aplicar(self, "SimpleSaveRescates")
         self.setWindowTitle(t("rescates_titulo"))
         self.servicios = servicios
         self.elegida = None
@@ -243,6 +244,7 @@ class DialogoRescates(QtWidgets.QDialog):
 class DialogoComparar(QtWidgets.QDialog):
     def __init__(self, gestor, a=None, b=None, padre=None):
         super(DialogoComparar, self).__init__(padre)
+        estilo.aplicar(self, "SimpleSaveComparar")
         self.gestor = gestor
         self.setWindowTitle(t("comparar_titulo"))
         self.versiones = gestor.historial().versiones(incluir_archivadas=True)

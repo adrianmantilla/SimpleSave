@@ -5,7 +5,7 @@ import os
 from maya import cmds, mel
 
 import simplesave
-from simplesave import qt
+from simplesave import pack, qt
 from simplesave.config import ARCHIVO_PROFESOR, DEFECTOS, Ajustes, escribir_json
 from simplesave.gestor import ErrorGuardado, Gestor
 from simplesave.i18n import t
@@ -361,9 +361,7 @@ def _crear_ordenes():
 
 
 def _crear_menu():
-    if cmds.menu(MENU, exists=True):
-        cmds.deleteUI(MENU)
-    cmds.menu(MENU, label="SimpleSave", parent="MayaWindow", tearOff=True)
+    pack.crear_menu(MENU, "SimpleSave")
     cmds.menuItem(label=t("menu_guardar", atajo=texto_atajo()), command=lambda *_: guardar_version(),
                   annotation=t("cmd_guardar"))
     cmds.menuItem(label=t("menu_panel"), command=lambda *_: mostrar())
@@ -373,7 +371,8 @@ def _crear_menu():
     cmds.menuItem(label=t("menu_entregar"), command=lambda *_: entregar())
     cmds.menuItem(label=t("menu_limpiar"), command=lambda *_: limpiar())
     cmds.menuItem(divider=True)
-    cmds.menuItem(label=t("menu_estanteria"), command=lambda *_: anadir_a_estanteria())
+    if not pack.en_pack():  # dentro de MantiTools el estante lo pone el pack
+        cmds.menuItem(label=t("menu_estanteria"), command=lambda *_: anadir_a_estanteria())
     cmds.menuItem(label=t("menu_atajo", atajo=texto_atajo()), command=lambda *_: asignar_atajo())
     cmds.menuItem(label=t("menu_profesor"), command=lambda *_: crear_json_profesor())
     cmds.menuItem(divider=True)
@@ -426,5 +425,4 @@ def detener():
         destruir(p)
     _estado["panel"] = None
     _estado["gestor"] = None
-    if cmds.menu(MENU, exists=True):
-        cmds.deleteUI(MENU)
+    pack.quitar_menu(MENU)
