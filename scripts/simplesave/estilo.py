@@ -68,6 +68,10 @@ HOJA = """
     color: white; font-weight: 600; padding: 7px 12px; }
 %(raiz)s QPushButton[rol="primario"]:hover { background: #5aa9de; }
 %(raiz)s QPushButton[rol="primario"]:pressed { background: %(acento_oscuro)s; }
+%(raiz)s QPushButton[rol="primario"]:disabled { background: #4a4a4a; color: #858585; border-color: #303030; }
+%(raiz)s QPushButton[rol="icono"] { padding: 2px 4px; }
+%(raiz)s QToolButton::menu-button { border: none; background: transparent; width: 16px; }
+%(raiz)s QScrollArea, %(raiz)s QScrollArea > QWidget > QWidget { background: transparent; }
 
 %(raiz)s QToolButton[rol="segmento"] { background: #383838; color: #bbbbbb; border: 1px solid #2c2c2c;
     padding: 5px 14px; font-weight: 600; }
@@ -140,6 +144,7 @@ def hoja(nombre_objeto):
 def aplicar(widget, nombre_objeto):
     """Da a ``widget`` su nombre de objeto y la hoja de estilo. Devuelve el widget."""
     widget.setObjectName(nombre_objeto)
+    widget.setAttribute(QtCore.Qt.WA_StyledBackground, True)  # que pinte su fondo aunque sea un QWidget
     widget.setStyleSheet(hoja(nombre_objeto))
     return widget
 
